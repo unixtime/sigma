@@ -1,3 +1,4 @@
+order: 20
 logsources:
   windows-application:
     product: windows
@@ -60,3 +61,8 @@ logsources:
     service: ntlm
     conditions:
       LogName: 'Microsoft-Windows-NTLM/Operational'
+  windows-dhcp:
+    product: windows
+    service: dhcp
+    conditions: 
+      LogName: 'Microsoft-Windows-DHCP-Server/Operational'

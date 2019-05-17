@@ -1,0 +1,10 @@
+order: 10
+logsources:
+    process_creation:
+        category: process_creation
+        product: windows
+        conditions:
+            EventID: 1
+        rewrite:
+            product: windows
+            service: sysmon

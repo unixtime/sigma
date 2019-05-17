@@ -1,3 +1,4 @@
+order: 20
 logsources:
   linux:
     product: linux
@@ -45,6 +46,11 @@ logsources:
     product: windows
     service: powershell
     conditions:
+      deviceVendor: Microsoft
+  windows-dhcp:
+    product: windows
+    service: dhcp
+    conditions: 
       deviceVendor: Microsoft
   windows-system:
     product: windows

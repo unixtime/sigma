@@ -1,3 +1,4 @@
+order: 20
 logsources:
   windows-security:
     product: windows
@@ -19,6 +20,12 @@ logsources:
     service: driver-framework
     conditions:
       source: 'Microsoft-Windows-DriverFrameworks-UserMode/Operational'
+  windows-dhcp:
+    product: windows
+    service: dhcp
+    conditions: 
+      source: 'Microsoft-Windows-DHCP-Server/Operational'
+
 fieldmappings:
     EventID: event_id
     FailureCode: result_code
