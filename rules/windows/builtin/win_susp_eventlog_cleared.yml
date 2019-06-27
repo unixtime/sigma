@@ -7,12 +7,14 @@ author: Florian Roth
 tags:
     - attack.defense_evasion
     - attack.t1070
+    - car.2016-04-002
 logsource:
     product: windows
     service: system
 detection:
     selection:
         EventID: 104
+        Source: Microsoft-Windows-Eventlog
     condition: selection
 falsepositives:
     - Unknown
