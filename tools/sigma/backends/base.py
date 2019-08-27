@@ -14,27 +14,71 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import sys
+
 import sigma
+import yaml
+
 from .mixins import RulenameCommentMixin, QuoteCharMixin
+from sigma.parser.modifiers.base import SigmaTypeModifier
 
 class BackendOptions(dict):
-    """Object contains all options that should be passed to the backend from command line (or other user interfaces)"""
+    """
+    Object containing all the options that should be passed to the backend.
 
-    def __init__(self, options):
-        """
-        Receives the argparser result from the backend option paramater value list (nargs=*) and builds the dict from it. There are two option types:
+    The options can come from command line and a YAML configuration file, and will be merged together.
+    Options from the command line take precedence.
+    """
 
-        * key=value: self{key} = value
-        * key: self{key} = True
+    def __init__(self, options, config_file):
         """
-        if options == None:
+        :param options: unparsed options coming from the CLI
+        :param config_file: path to a YAML configuration file
+        """
+
+        self._load_config_file(config_file)
+        self._parse_options(options)
+
+    def _parse_options(self, options):
+        """
+        Populates options from the unparsed options of the CLI
+
+        :param options: list unparsed options from the CLI.
+            Each option can have one of the following formats:
+            - "key=value": the option key:value will be passed to the backend
+            - "key": the option key:True will be passed to the backend
+        """
+
+        if options is None:
             return
+
         for option in options:
             parsed = option.split("=", 1)
             try:
                 self[parsed[0]] = parsed[1]
             except IndexError:
+                # If the option is present but doesn't map to a value, treat it as a boolean flag
                 self[parsed[0]] = True
+
+    def _load_config_file(self, path):
+        """
+        Populates options from a configuration file
+
+        :param path: Path to the configuration file
+        """
+        if path is None:
+            return
+
+        try:
+            with open(path, 'r') as config_file:
+                backend_config = yaml.safe_load(config_file.read())
+                self.update(backend_config)
+        except (IOError, OSError) as e:
+            print("Failed to open backend configuration file '%s': %s" % (path, str(e)), file=sys.stderr)
+            exit(1)
+        except yaml.YAMLError as e:
+            print("Failed to parse backend configuration file '%s' as valid YAML: %s" % (path, str(e)), file=sys.stderr)
+            exit(1)
 
 ### Generic backend base classes
 class BaseBackend:
@@ -44,6 +88,7 @@ class BaseBackend:
     index_field = None    # field name that is used to address indices
     file_list = None
     options = tuple()     # a list of tuples with following elements: option name, default value, help text, target attribute name (option name if None)
+    config_required = True
 
     def __init__(self, sigmaconfig, backend_options=None):
         """
@@ -51,7 +96,7 @@ class BaseBackend:
         passing the object instance to it.
         """
         super().__init__()
-        if not isinstance(sigmaconfig, (sigma.configuration.SigmaConfiguration, None)):
+        if not isinstance(sigmaconfig, (sigma.configuration.SigmaConfiguration, sigma.configuration.SigmaConfigurationChain, None)):
             raise TypeError("SigmaConfiguration object expected")
         self.backend_options = backend_options
         self.sigmaconfig = sigmaconfig
@@ -105,6 +150,8 @@ class BaseBackend:
             return self.generateValueNode(node)
         elif type(node) == list:
             return self.generateListNode(node)
+        elif isinstance(node, SigmaTypeModifier):
+            return self.generateTypedValueNode(node)
         else:
             raise TypeError("Node type %s was not expected in Sigma parse tree" % (str(type(node))))
 
@@ -127,6 +174,9 @@ class BaseBackend:
         raise NotImplementedError("Node type not implemented for this backend")
 
     def generateValueNode(self, node):
+        raise NotImplementedError("Node type not implemented for this backend")
+
+    def generateTypedValueNode(self, node):
         raise NotImplementedError("Node type not implemented for this backend")
 
     def generateNULLValueNode(self, node):
@@ -164,6 +214,7 @@ class SingleTextQueryBackend(RulenameCommentMixin, BaseBackend, QuoteCharMixin):
     listExpression = None               # Syntax for lists, %s are list items separated with listSeparator
     listSeparator = None                # Character for separation of list items
     valueExpression = None              # Expression of values, %s represents value
+    typedValueExpression = dict()       # Expression of typed values generated by type modifiers. modifier identifier -> expression dict, %s represents value
     nullExpression = None               # Expression of queries for null values or non-existing fields. %s is field name
     notNullExpression = None            # Expression of queries for not null values. %s is field name
     mapExpression = None                # Syntax for field/value conditions. First %s is fieldname, second is value
@@ -213,14 +264,27 @@ class SingleTextQueryBackend(RulenameCommentMixin, BaseBackend, QuoteCharMixin):
             return self.mapExpression % (transformed_fieldname, self.generateNode(value))
         elif type(value) == list:
             return self.generateMapItemListNode(transformed_fieldname, value)
+        elif isinstance(value, SigmaTypeModifier):
+            return self.generateMapItemTypedNode(transformed_fieldname, value)
+        elif value is None:
+            return self.nullExpression % (transformed_fieldname, )
         else:
             raise TypeError("Backend does not support map values of type " + str(type(value)))
 
     def generateMapItemListNode(self, fieldname, value):
         return self.mapListValueExpression % (fieldname, self.generateNode(value))
 
+    def generateMapItemTypedNode(self, fieldname, value):
+        return self.mapExpression % (fieldname, self.generateTypedValueNode(value))
+
     def generateValueNode(self, node):
         return self.valueExpression % (self.cleanValue(str(node)))
+
+    def generateTypedValueNode(self, node):
+        try:
+            return self.typedValueExpression[type(node)] % (str(node))
+        except KeyError:
+            raise NotImplementedError("Type modifier '{}' is not supported by backend".format(node.identifier))
 
     def generateNULLValueNode(self, node):
         return self.nullExpression % (node.item)
