@@ -67,6 +67,9 @@ class ElasticsearchWildcardHandlingMixin(object):
             else:
                 self.matchKeyword = False
                 return fieldname + "." + "text"
+        elif fieldname  in self.blacklist:
+            self.matchKeyword = False
+            return fieldname
         else:
             self.matchKeyword = False
             return fieldname + "." + "text"
