@@ -1,12 +1,6 @@
-title: HELK index patterns and OSSEM field mappings
+Title: HELK index patterns and OSSEM field mappings
 order: 20
-backends:
-  - es-qs
-  - es-dsl
-  - kibana
-  - xpack-watcher
-  - elastalert
-  - elastalert-dsl
+defaultindex: logs-*
 logsources:
   windows-application:
     product: windows
@@ -36,8 +30,6 @@ logsources:
     product: windows
     service: powershell-classic
     index: logs-endpoint-winevent-powershell-*
-
-defaultindex: logs-*
 fieldmappings:
     AccessMask: object_access_mask_requested
     AccountName: user_name
@@ -106,12 +98,13 @@ fieldmappings:
         EventID=21: wmi_operation
     OperationType: object_operation_type
     ParentImage: process_parent_path
+    ParentProcessName: process_parent_path
     PasswordLastSet: user_attribute_password_lastset
     Path: process_path
     ParentCommandLine: process_parent_command_line
     PipeName: pipe_name
     ProcessName: process_path
-    ProcesssCommandLine: process_command_line
+    ProcessCommandLine: process_command_line
     Product: file_product
     Properties: object_properties
     Protocol:
