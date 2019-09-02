@@ -63,7 +63,7 @@ class ElasticsearchWildcardHandlingMixin(object):
         if fieldname not in self.blacklist and (
                 type(value) == list and any(map(self.containsWildcard, value)) \
                 or self.containsWildcard(value)
-                ):
+                ) and "*" not in self.blacklist:
             self.matchKeyword = True
             return fieldname + "." + self.keyword_field
         else:
