@@ -69,7 +69,7 @@ class ElasticsearchWildcardHandlingMixin(object):
                 return fieldname + "." + "text"
         else:
             self.matchKeyword = False
-            return fieldname
+            return fieldname + "." + "text"
 
 class ElasticsearchQuerystringBackend(ElasticsearchWildcardHandlingMixin, SingleTextQueryBackend):
     """Converts Sigma rule into Elasticsearch query string. Only searches, no aggregations."""
