@@ -1,4 +1,4 @@
-title: Pass the Hash Activity
+title: Pass the Hash Activity 02
 status: experimental
 description: 'Detects the attack technique pass the hash which is used to move laterally inside the network'
 references:
