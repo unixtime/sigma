@@ -111,7 +111,7 @@ fieldmappings:
     ParentCommandLine: process_parent_command_line
     PipeName: pipe_name
     ProcessName: process_path
-    ProcesssCommandLine: process_command_line
+    ProcessCommandLine: process_command_line
     Product: file_product
     Properties: object_properties
     Protocol:
