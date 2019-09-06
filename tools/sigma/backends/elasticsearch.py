@@ -16,6 +16,7 @@
 
 import json
 import re
+from fnmatch import fnmatch
 import sys
 
 import sigma
