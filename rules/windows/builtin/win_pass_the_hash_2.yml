@@ -16,7 +16,7 @@ logsource:
 detection:
     selection:
         - EventID: 4624
-          SubjectUserSid: 'S-1-0-0'
+          SecurityID: 'NULL SID'
           LogonType: '3'
           LogonProcessName: 'NtLmSsp'
           KeyLength: '0'
