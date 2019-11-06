@@ -1,12 +1,6 @@
-title: HELK index patterns and OSSEM field mappings
+Title: HELK index patterns and OSSEM field mappings
 order: 20
-backends:
-  - es-qs
-  - es-dsl
-  - kibana
-  - xpack-watcher
-  - elastalert
-  - elastalert-dsl
+defaultindex: logs-*
 logsources:
   windows-application:
     product: windows
