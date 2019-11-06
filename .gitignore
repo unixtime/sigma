@@ -91,4 +91,5 @@ ENV/
 # vi(m)
 *.swp
 settings.json
-/.idea/
+.idea/
+.testing/

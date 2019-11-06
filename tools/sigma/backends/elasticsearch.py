@@ -22,7 +22,6 @@ import sys
 import sigma
 import yaml
 from sigma.parser.modifiers.type import SigmaRegularExpressionModifier
-from sigma.parser.condition import ConditionOR, ConditionAND, NodeSubexpression
 from .base import BaseBackend, SingleTextQueryBackend
 from .mixins import RulenameCommentMixin, MultiRuleOutputMixin
 from .exceptions import NotSupportedError
