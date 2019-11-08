@@ -22,7 +22,6 @@ import sys
 import sigma
 import yaml
 from sigma.parser.modifiers.type import SigmaRegularExpressionModifier
-from sigma.parser.condition import ConditionOR, ConditionAND, NodeSubexpression
 from .base import BaseBackend, SingleTextQueryBackend
 from .mixins import RulenameCommentMixin, MultiRuleOutputMixin
 from .exceptions import NotSupportedError
@@ -477,7 +476,7 @@ class XPackWatcherBackend(ElasticsearchQuerystringBackend, MultiRuleOutputMixin)
         # Get time frame if exists
         interval = sigmaparser.parsedyaml["detection"].setdefault("timeframe", "30m")
         dateField = self.sigmaconfig.config.get("dateField", "timestamp")
-        
+
         # creating condition
         indices = sigmaparser.get_logsource().index
         # How many results to be returned. Usually 0 but for index action we need it.
