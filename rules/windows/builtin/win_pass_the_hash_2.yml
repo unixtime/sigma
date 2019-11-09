@@ -1,4 +1,4 @@
-title: Pass the Hash Activity
+title: Pass the Hash Activity 02
 status: production
 description: 'Detects the attack technique pass the hash which is used to move laterally inside the network'
 references:
@@ -16,7 +16,7 @@ logsource:
 detection:
     selection:
         - EventID: 4624
-          SecurityID: 'NULL SID'
+          SubjectUserSid: 'S-1-0-0'
           LogonType: '3'
           LogonProcessName: 'NtLmSsp'
           KeyLength: '0'
