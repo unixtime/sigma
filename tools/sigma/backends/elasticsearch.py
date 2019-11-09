@@ -63,19 +63,15 @@ class ElasticsearchWildcardHandlingMixin(object):
             self.matchKeyword = True
             return fieldname
 
-        if fieldname not in self.blacklist:
-            if type(value) == list and any(map(self.containsWildcard, value)) or self.containsWildcard(value):
-                self.matchKeyword = True
-                return fieldname
-            else:
-                self.matchKeyword = False
-                return fieldname + "." + "text"
-        elif fieldname  in self.blacklist:
-            self.matchKeyword = False
-            return fieldname
+        if not any([ fnmatch(fieldname, pattern) for pattern in self.blacklist ]) and (
+                type(value) == list and any(map(self.containsWildcard, value)) \
+                or self.containsWildcard(value)
+                ):
+            self.matchKeyword = True
+            return fieldname + "." + self.keyword_field
         else:
             self.matchKeyword = False
-            return fieldname + "." + "text"
+            return fieldname
 
 class ElasticsearchQuerystringBackend(ElasticsearchWildcardHandlingMixin, SingleTextQueryBackend):
     """Converts Sigma rule into Elasticsearch query string. Only searches, no aggregations."""
