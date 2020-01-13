@@ -1,6 +1,5 @@
-Title: HELK index patterns and OSSEM field mappings
+title: HELK index patterns and OSSEM field mappings
 order: 20
-defaultindex: logs-*
 backends:
   - es-qs
   - es-dsl
@@ -76,7 +75,6 @@ fieldmappings:
         EventID=20: wmi_consumer_destination
     DestinationHostname: dst_host_name
     DestinationIp: dst_ip_addr
-    DestinationIsIpv6: dst_is_ipv6
     DestinationPort: dst_port
     DestinationPortName: dst_port_name
     DestinationIsIpv6: dst_is_ipv6
@@ -181,9 +179,6 @@ fieldmappings:
     TargetImage: target_process_path
     TargetProcessAddress: thread_start_address
     TargetObject: registry_key_path
-    TaskName: task_name
-    TicketEncryptionType: ticket_encryption_type
-    TicketOptions: ticket_options
     Type:
         EventID=20: wmi_consumer_type
     User: user_account
