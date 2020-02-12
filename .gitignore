@@ -91,5 +91,6 @@ ENV/
 # vi(m)
 *.swp
 settings.json
-.idea/
-.testing/
+
+# VisualStudio
+.vs/
