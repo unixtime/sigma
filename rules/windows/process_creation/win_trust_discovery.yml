@@ -1,4 +1,4 @@
-title: Domain Trust Discovery
+title: Domain Trust Discovery 02
 id: 3bad990e-4848-4a78-9530-b427d854aac0
 description: Identifies execution of nltest.exe and dsquery.exe for domain trust discovery. This technique is used by attackers to enumerate Active Directory trusts.
 status: experimental
