@@ -10,6 +10,7 @@ references:
     - http://www.windowsinspired.com/understanding-the-command-line-string-and-arguments-received-by-a-windows-program/
 author: juju4
 date: 2018/12/11
+modified: 2020/03/14
 tags:
     - attack.defense_evasion
     - attack.t1140

@@ -100,7 +100,7 @@ merges multiple YAML documents of a Sigma rule collection into simple Sigma rule
 
 ```
 usage: sigmac [-h] [--recurse] [--filter FILTER]
-              [--target {arcsight,es-qs,es-dsl,kibana,xpack-watcher,elastalert,graylog,limacharlie,logpoint,grep,netwitness,powershell,qradar,qualys,splunk,splunkxml,sumologic,fieldlist,wdatp}]
+              [--target {arcsight,es-qs,es-dsl,kibana,xpack-watcher,elastalert,graylog,limacharlie,logpoint,grep,netwitness,powershell,qradar,qualys,splunk,splunkxml,sumologic,fieldlist,mdatp}]
               [--target-list] [--config CONFIG] [--output OUTPUT]
               [--backend-option BACKEND_OPTION] [--defer-abort]
               [--ignore-backend-errors] [--verbose] [--debug]
@@ -125,7 +125,7 @@ optional arguments:
                         tag that must appear in the rules tag list, case-
                         insensitive matching. Multiple log source
                         specifications are AND linked.
-  --target {arcsight,es-qs,es-dsl,kibana,xpack-watcher,elastalert,graylog,limacharlie,logpoint,grep,netwitness,powershell,qradar,qualys,splunk,splunkxml,sumologic,fieldlist,wdatp}, -t {arcsight,es-qs,es-dsl,kibana,xpack-watcher,elastalert,graylog,limacharlie,logpoint,grep,netwitness,powershell,qradar,qualys,splunk,splunkxml,sumologic,fieldlist,wdatp}
+  --target {arcsight,es-qs,es-dsl,kibana,xpack-watcher,elastalert,graylog,limacharlie,logpoint,grep,netwitness,powershell,qradar,qualys,splunk,splunkxml,sumologic,fieldlist,mdatp}, -t {arcsight,es-qs,es-dsl,kibana,xpack-watcher,elastalert,graylog,limacharlie,logpoint,grep,netwitness,powershell,qradar,qualys,splunk,splunkxml,sumologic,fieldlist,mdatp}
                         Output target format
   --target-list, -l     List available output target formats
   --config CONFIG, -c CONFIG
@@ -191,7 +191,7 @@ tools/sigmac -t splunk -c ~/my-splunk-mapping.yml -c tools/config/generic/window
 * [Kibana](https://www.elastic.co/de/products/kibana)
 * [Elastic X-Pack Watcher](https://www.elastic.co/guide/en/x-pack/current/xpack-alerting.html)
 * [Logpoint](https://www.logpoint.com)
-* [Windows Defender Advanced Threat Protection (WDATP)](https://www.microsoft.com/en-us/windowsforbusiness/windows-atp)
+* [Microsoft Defender Advanced Threat Protection (MDATP)](https://www.microsoft.com/en-us/microsoft-365/windows/microsoft-defender-atp)
 * [Azure Sentinel / Azure Log Analytics](https://azure.microsoft.com/en-us/services/azure-sentinel/)
 * [Sumologic](https://www.sumologic.com/)
 * [ArcSight](https://software.microfocus.com/en-us/products/siem-security-information-event-management/overview)
@@ -305,6 +305,7 @@ These tools are not part of the main toolchain and maintained separately by thei
 * [ypsilon](https://github.com/P4T12ICK/ypsilon) - Automated Use Case Testing 
 * [RANK VASA](https://globenewswire.com/news-release/2019/03/04/1745907/0/en/RANK-Software-to-Help-MSSPs-Scale-Cybersecurity-Offerings.html)
 * [TA-Sigma-Searches](https://github.com/dstaulcu/TA-Sigma-Searches) (Splunk App)
+* [TimeSketch](https://github.com/google/timesketch/commit/0c6c4b65a6c0f2051d074e87bbb2da2424fa6c35)
 
 # Contribution
 
@@ -344,4 +345,8 @@ This is a private project mainly developed by Florian Roth and Thomas Patzke wit
 
 # Info Graphic
 
+## Overview
 ![sigmac_info_graphic](./images/sigma_infographic_lq.png)
+
+## Coverage Illustration
+![sigmac_coverage](./images/Sigma_Coverage.png)
