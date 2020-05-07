@@ -20,7 +20,6 @@ detection:
     filter:
         Imphash: 
             - '00000000000000000000000000000000'
-            - null
     condition: selection and not filter
 fields:
     - TargetFilename
