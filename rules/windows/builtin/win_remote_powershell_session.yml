@@ -1,4 +1,4 @@
-title: Remote PowerShell Sessions
+title: Remote PowerShell Sessions 02
 id: 13acf386-b8c6-4fe0-9a6e-c4756b974698
 description: Detects basic PowerShell Remoting by monitoring for network inbound connections to ports 5985 OR 5986
 status: experimental
