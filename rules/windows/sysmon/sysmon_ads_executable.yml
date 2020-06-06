@@ -17,10 +17,11 @@ logsource:
 detection:
     selection:
         EventID: 15
-    filter:
-        Imphash: 
-            - '00000000000000000000000000000000'
-    condition: selection and not filter
+    filter1:
+        Imphash: '00000000000000000000000000000000'
+    filter2:
+        Imphash: null
+    condition: selection and not 1 of filter*
 fields:
     - TargetFilename
     - Image

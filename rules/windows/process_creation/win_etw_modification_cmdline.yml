@@ -13,15 +13,14 @@ references:
   - http://managed670.rssing.com/chan-5590147/all_p1.html
   - https://github.com/dotnet/runtime/blob/4f9ae42d861fcb4be2fcd5d3d55d5f227d30e723/docs/coding-guidelines/clr-jit-coding-conventions.md#1412-disabling-code
 author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
-date: 2020/06/05
+date: 2020/05/02
 tags:
     - attack.defense_evasion
 logsource:
+    category: process_creation
     product: windows
-    service: sysmon
 detection:
     selection:
-        EventID: 1
         CommandLine|contains: 'COMPlus_ETWEnabled=0'
     condition: selection
 falsepositives:
