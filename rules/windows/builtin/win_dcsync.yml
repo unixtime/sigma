@@ -1,25 +1,35 @@
-title: Possible DC Sync
-id: 32e19d25-4aed-4860-a55a-be99cb0bf7ed
-description: Detects DC sync via create new SPN
+title: Mimikatz DC Sync
+id: 611eab06-a145-4dfa-a295-3ccc5c20f59a
+description: Detects Mimikatz DC sync security events
 status: experimental
-author: Ilyas Ochkov, oscd.community
-date: 2019/10/25
+date: 2018/06/03
+modified: 2019/10/08
+author: Benjamin Delpy, Florian Roth
 references:
-    - https://github.com/Neo23x0/sigma/blob/ec5bb710499caae6667c7f7311ca9e92c03b9039/rules/windows/builtin/win_dcsync.yml
     - https://twitter.com/gentilkiwi/status/1003236624925413376
     - https://gist.github.com/gentilkiwi/dcc132457408cf11ad2061340dcb53c2
-    - https://jsecurity101.com/2019/Syncing-into-the-Shadows/
 tags:
     - attack.credential_access
+    - attack.s0002
     - attack.t1003
+    - attack.t1003.006
 logsource:
     product: windows
     service: security
 detection:
     selection:
-        EventID: 4742
-        ServicePrincipalNames: '*GC/*'
-    condition: selection
+        EventID: 4662
+        Properties:
+            - '*Replicating Directory Changes All*'
+            - '*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*'
+    filter1:
+        SubjectDomainName: 'Window Manager'
+    filter2:
+        SubjectUserName:
+            - 'NT AUTHORITY*'
+            - '*$'
+    condition: selection and not filter1 and not filter2
 falsepositives:
-    - Unkown
+    - Valid DC Sync that is not covered by the filters; please report
 level: high
+
