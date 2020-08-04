@@ -11,8 +11,7 @@ tags:
     - attack.defense_evasion
     - attack.t1146
     - attack.t1070
-    - attack.t1551.003
-    - attack.t1551
+    - attack.t1070.003
 logsource:
     product: cisco
     service: aaa
